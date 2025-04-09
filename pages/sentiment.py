@@ -38,30 +38,3 @@ for _, line in reviews_book.iterrows():
   st.write(f"**Descrição:** {line['review description']}")
   st.write(f"**Data:** {line['date']}")
   st.write("---")
-
-# Contar a frequência de cada sentimento
-contagem_sentimentos = reviews_book['sentimento'].value_counts().reset_index()
-contagem_sentimentos.columns = ['sentimento', 'sentimento_numerico']
-
-contagem_sentimentos_total = df_mapeado['sentimento'].value_counts().reset_index()
-contagem_sentimentos.columns = ['sentimento', 'sentimento_numerico']
-
-# Criar o gráfico de barras
-fig3 = px.bar(contagem_sentimentos,
-             x='sentimento',
-             y='sentimento_numerico',
-             text='sentimento_numerico',
-             labels={'sentimento': 'Sentimento', 'sentimento_numerico': 'Quantidade'},
-             title='Distribuição dos Sentimentos das Reviews do {book_title}')
-
-# Criar o gráfico de barras
-fig4 = px.bar(contagem_sentimentos_total,
-             x='sentimento',
-             y='sentimento_numerico',
-             text='sentimento_numerico',
-             labels={'sentimento': 'Sentimento', 'sentimento_numerico': 'Quantidade'},
-             title='Distribuição dos Sentimentos das Reviews')
-
-col1, col2 = st.columns(2) #essa opção divide em colunas
-col1.plotly_chart(fig3, key="fig3_col1") #coloca cada figura em uma coluna
-col2.plotly_chart(fig4, key="fig4_col2")
