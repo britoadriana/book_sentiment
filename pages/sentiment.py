@@ -30,15 +30,6 @@ st.write(f"**Preço:** ${book_price:.2f}")
 st.write(f"**Avaliação:** {book_rating}/5")
 st.write(f"**Ano de Publicação:** {book_year}")
 
-st.divider() # Colocar um divisor na tela
-for _, line in reviews_book.iterrows():
-  st.write(f"**Usuário:** {line['reviewer']}")
-  st.write(f"**Título:** {line['review title']}")
-  st.write(f"**Sentimento presente na avaliação:** {line['sentimento']}")
-  st.write(f"**Descrição:** {line['review description']}")
-  st.write(f"**Data:** {line['date']}")
-  st.write("---")
-
 # Contar a frequência de cada sentimento
 contagem_sentimentos = reviews_book['sentimento'].value_counts().reset_index()
 contagem_sentimentos.columns = ['sentimento', 'sentimento_numerico']
@@ -49,6 +40,16 @@ fig3 = px.bar(contagem_sentimentos,
              y='sentimento_numerico',
              text='sentimento_numerico',
              labels={'sentimento': 'Sentimento', 'sentimento_numerico': 'Quantidade'},
-             title='Distribuição dos Sentimentos das Reviews do {book_title}')
+             title='Distribuição dos Sentimentos das Reviews')
 
 st.plotly_chart(fig3)
+
+st.divider() # Colocar um divisor na tela
+for _, line in reviews_book.iterrows():
+  st.write(f"**Usuário:** {line['reviewer']}")
+  st.write(f"**Título:** {line['review title']}")
+  st.write(f"**Sentimento presente na avaliação:** {line['sentimento']}")
+  st.write(f"**Descrição:** {line['review description']}")
+  st.write(f"**Data:** {line['date']}")
+  st.write("---")
+
