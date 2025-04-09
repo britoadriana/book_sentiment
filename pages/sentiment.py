@@ -2,34 +2,17 @@ import streamlit as st
 import pandas as pd
 from app import df_reviews
 from app import df_books
-from pysentimiento import create_analyzer
 import plotly.express as px
+import openpyxl
 
-
-#st.title("Análise de sentimento presente nas avaliações")
-#st.header("Entendendo melhor os livros da Amazon!")
-
-analyzer = create_analyzer(task="sentiment", lang="en")
-
-sentimentos = []
-probabilidades = []
-
-for index, line in df_reviews.iterrows():
-  resposta = analyzer.predict(line["review description"])
-  sentimento = resposta.output
-  sentimentos.append(sentimento)
-  probabilidade = resposta.probas[sentimento]
-  probabilidades.append(probabilidade)
-  
-df_reviews['sentimento'] = sentimentos  
-df_reviews['probabilidade'] = probabilidades
+df_mapeado = pd.read_excel("datasets\df_reviews_mapeado.xlsx")
 
 books_names = df_books["book title"].unique() # Achando nomes unicos
 book_name = st.sidebar.selectbox("Escolha um livro", books_names) # Colocando os nomes únicos na slide bar
 
 # Fazendo o filtro no dataframe em função do nome do livro
 chosed_book = df_books[df_books["book title"] == book_name] 
-reviews_book = df_reviews[df_reviews["book title"] == book_name] #
+reviews_book = df_mapeado[df_mapeado["book title"] == book_name] #
 
 # Do livro selecionado, queremos que apareça o nome, o preço, o gênero, a nota e o ano
 book_title = chosed_book["book title"].iloc[0]
@@ -60,6 +43,9 @@ for _, line in reviews_book.iterrows():
 contagem_sentimentos = reviews_book['sentimento'].value_counts().reset_index()
 contagem_sentimentos.columns = ['sentimento', 'sentimento_numerico']
 
+contagem_sentimentos_total = df_mapeado['sentimento'].value_counts().reset_index()
+contagem_sentimentos.columns = ['sentimento', 'sentimento_numerico']
+
 # Criar o gráfico de barras
 fig3 = px.bar(contagem_sentimentos,
              x='sentimento',
@@ -69,7 +55,7 @@ fig3 = px.bar(contagem_sentimentos,
              title='Distribuição dos Sentimentos das Reviews do {book_title}')
 
 # Criar o gráfico de barras
-fig4 = px.bar(contagem_sentimentos,
+fig4 = px.bar(contagem_sentimentos_total,
              x='sentimento',
              y='sentimento_numerico',
              text='sentimento_numerico',
