@@ -7,8 +7,8 @@ st.set_page_config(layout="wide") # para as coisas ficarem na largura toda
 st.title("Análise de informações de livros")
 st.header("Entendendo melhor os livros da Amazon!")
 
-df_reviews = pd.read_csv(datasets\"customer reviews.csv")
-df_books = pd.read_csv(datasets\"Top-100 Trending Books.csv")
+df_reviews = pd.read_csv(datasets/"customer reviews.csv")
+df_books = pd.read_csv(datasets/"Top-100 Trending Books.csv")
 
 #colocar o mesmo nome de coluna com nome do livro nas duas tabelas
 df_reviews.rename(columns={'book name': 'book title'}, inplace=True) #agora nas duas tabelas usaremos book title
