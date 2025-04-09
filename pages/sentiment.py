@@ -38,3 +38,17 @@ for _, line in reviews_book.iterrows():
   st.write(f"**Descrição:** {line['review description']}")
   st.write(f"**Data:** {line['date']}")
   st.write("---")
+
+# Contar a frequência de cada sentimento
+contagem_sentimentos = reviews_book['sentimento'].value_counts().reset_index()
+contagem_sentimentos.columns = ['sentimento', 'sentimento_numerico']
+
+# Criar o gráfico de barras
+fig3 = px.bar(contagem_sentimentos,
+             x='sentimento',
+             y='sentimento_numerico',
+             text='sentimento_numerico',
+             labels={'sentimento': 'Sentimento', 'sentimento_numerico': 'Quantidade'},
+             title='Distribuição dos Sentimentos das Reviews do {book_title}')
+
+st.plotly_chart(fig3)
