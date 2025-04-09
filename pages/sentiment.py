@@ -5,7 +5,7 @@ from app import df_books
 import plotly.express as px
 import openpyxl
 
-df_mapeado = pd.read_excel("datasets\df_reviews_mapeado.xlsx")
+df_mapeado = pd.read_excel("datasets/df_reviews_mapeado.xlsx")
 
 books_names = df_books["book title"].unique() # Achando nomes unicos
 book_name = st.sidebar.selectbox("Escolha um livro", books_names) # Colocando os nomes únicos na slide bar
